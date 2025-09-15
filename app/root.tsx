@@ -12,6 +12,7 @@ import "./app.css";
 import {usePuterStore} from "~/lib/puter";
 import {useEffect} from "react";
 import AnimatedBackground from "~/components/AnimatedBackground";
+import Footer from "~/components/Footer";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -52,6 +53,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <script src="https://js.puter.com/v2/"></script>
         <AnimatedBackground />
         {children}
+        <Footer />
         <ScrollRestoration />
         <Scripts />
       </body>

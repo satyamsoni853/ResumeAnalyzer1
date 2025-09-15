@@ -1,0 +1,22 @@
+.footer {
+  width: 100%;
+}
+
+.form {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}
+

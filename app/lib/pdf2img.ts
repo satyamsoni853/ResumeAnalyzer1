@@ -4,6 +4,13 @@ export interface PdfConversionResult {
     error?: string;
 }
 
+// Vite-friendly worker for PDF.js
+// Import both a Worker constructor and a URL string; use constructor when possible.
+// @ts-expect-error - Vite worker import
+import PdfWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?worker';
+// @ts-expect-error - Vite url import
+import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
+
 let pdfjsLib: any = null;
 let isLoading = false;
 let loadPromise: Promise<any> | null = null;
@@ -13,10 +20,24 @@ async function loadPdfJs(): Promise<any> {
     if (loadPromise) return loadPromise;
 
     isLoading = true;
-    // @ts-expect-error - pdfjs-dist/build/pdf.mjs is not a module
-    loadPromise = import("pdfjs-dist/build/pdf.mjs").then((lib) => {
-        // Set the worker source to use local file
-        lib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
+    // Dynamically import the ESM entry so SSR doesn't choke.
+    loadPromise = import("pdfjs-dist").then((lib) => {
+        // Prefer WorkerPort (ensures type: 'module')
+        try {
+            // @ts-expect-error - constructor provided by Vite
+            const workerInstance: Worker = typeof PdfWorker === 'function' ? new PdfWorker() : undefined as any;
+            if (workerInstance) {
+                // @ts-expect-error - pdfjs types are loose in ESM
+                lib.GlobalWorkerOptions.workerPort = workerInstance;
+            } else {
+                // @ts-expect-error - pdfjs types are loose in ESM
+                lib.GlobalWorkerOptions.workerSrc = workerUrl || "/pdf.worker.min.mjs";
+            }
+        } catch {
+            // Fallback to URL
+            // @ts-expect-error - pdfjs types are loose in ESM
+            lib.GlobalWorkerOptions.workerSrc = workerUrl || "/pdf.worker.min.mjs";
+        }
         pdfjsLib = lib;
         isLoading = false;
         return lib;
@@ -35,19 +56,27 @@ export async function convertPdfToImage(
         const pdf = await lib.getDocument({ data: arrayBuffer }).promise;
         const page = await pdf.getPage(1);
 
-        const viewport = page.getViewport({ scale: 4 });
+        // Compute scale to limit output size and memory usage
+        const baseViewport = page.getViewport({ scale: 1 });
+        const maxWidth = 2000; // cap width for stability
+        const scale = Math.max(1, Math.min(3, maxWidth / baseViewport.width));
+        const viewport = page.getViewport({ scale });
         const canvas = document.createElement("canvas");
         const context = canvas.getContext("2d");
 
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
+        canvas.width = Math.floor(viewport.width);
+        canvas.height = Math.floor(viewport.height);
 
         if (context) {
             context.imageSmoothingEnabled = true;
             context.imageSmoothingQuality = "high";
         }
 
-        await page.render({ canvasContext: context!, viewport }).promise;
+        if (!context) {
+            throw new Error('Canvas context unavailable');
+        }
+
+        await page.render({ canvasContext: context, viewport }).promise;
 
         return new Promise((resolve) => {
             canvas.toBlob(
@@ -79,7 +108,7 @@ export async function convertPdfToImage(
         return {
             imageUrl: "",
             file: null,
-            error: `Failed to convert PDF: ${err}`,
+            error: `Failed to convert PDF: ${err instanceof Error ? err.message : String(err)}`,
         };
     }
 }

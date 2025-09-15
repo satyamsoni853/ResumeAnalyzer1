@@ -1,1 +1,0 @@
-import{o as a,t as s}from"./chunk-QMGIS6GS-DX0VMMAr.js";const t=()=>a.jsxs("nav",{className:"navbar",children:[a.jsx(s,{to:"/",children:a.jsx("p",{className:"text-2xl font-bold text-gradient",children:"Resume Analyzer"})}),a.jsx(s,{to:"/upload",className:"primary-button w-fit",children:"Upload Your Resume"})]});export{t as N};

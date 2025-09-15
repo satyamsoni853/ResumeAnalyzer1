@@ -5,6 +5,7 @@ import { ServerRouter, UNSAFE_withComponentProps, Outlet, UNSAFE_withErrorBounda
 import { isbot } from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
 import { create } from "zustand";
+import * as React from "react";
 import { useEffect, useState, useCallback, useRef, createContext, useContext } from "react";
 import { useDropzone } from "react-dropzone";
 import { clsx } from "clsx";
@@ -360,17 +361,92 @@ const usePuterStore = create((set, get) => {
     clearError: () => set({ error: null })
   };
 });
-const links = () => [{
-  rel: "preconnect",
-  href: "https://fonts.googleapis.com"
-}, {
-  rel: "preconnect",
-  href: "https://fonts.gstatic.com",
-  crossOrigin: "anonymous"
-}, {
-  rel: "stylesheet",
-  href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-}];
+const AnimatedBackground = () => {
+  return /* @__PURE__ */ jsxs("div", { className: "animated-bg", "aria-hidden": "true", children: [
+    /* @__PURE__ */ jsx("span", { className: "animated-blob blob1" }),
+    /* @__PURE__ */ jsx("span", { className: "animated-blob blob2" })
+  ] });
+};
+const footer = "_footer_feie0_1";
+const form = "_form_feie0_5";
+const row = "_row_feie0_11";
+const styles = {
+  footer,
+  form,
+  row
+};
+const Footer = () => {
+  const handleSubmit = React.useCallback((e) => {
+    {
+      e.preventDefault();
+      alert("Contact form is not configured. Please set VITE_WEB3FORMS_KEY in your .env");
+      return;
+    }
+  }, []);
+  const web3formsKey = "";
+  return /* @__PURE__ */ jsx("footer", { className: `${styles.footer} mt-16 border-t border-dark-700`, children: /* @__PURE__ */ jsxs("div", { className: "container mx-auto px-4 py-10 flex flex-col gap-8 items-center", children: [
+    /* @__PURE__ */ jsx("h2", { className: "text-3xl font-semibold text-light-100", children: "Contact Us" }),
+    /* @__PURE__ */ jsx("p", { className: "text-light-200 text-center max-w-2xl", children: "Questions, feedback, or partnership ideas? Drop us a message and we’ll get back to you." }),
+    /* @__PURE__ */ jsxs(
+      "form",
+      {
+        action: "https://api.web3forms.com/submit",
+        method: "POST",
+        className: styles.form,
+        onSubmit: handleSubmit,
+        children: [
+          /* @__PURE__ */ jsx("input", { type: "hidden", name: "access_key", value: web3formsKey }),
+          /* @__PURE__ */ jsx("input", { type: "hidden", name: "subject", value: "New message from AI Resume Analyzer" }),
+          /* @__PURE__ */ jsx("input", { type: "checkbox", name: "botcheck", className: "hidden", style: { display: "none" }, tabIndex: -1, autoComplete: "off" }),
+          /* @__PURE__ */ jsxs("div", { className: styles.row, children: [
+            /* @__PURE__ */ jsxs("div", { className: "form-div", children: [
+              /* @__PURE__ */ jsx("label", { htmlFor: "name", children: "Your Name" }),
+              /* @__PURE__ */ jsx("input", { id: "name", name: "name", type: "text", placeholder: "Jane Doe", required: true })
+            ] }),
+            /* @__PURE__ */ jsxs("div", { className: "form-div", children: [
+              /* @__PURE__ */ jsx("label", { htmlFor: "email", children: "Email" }),
+              /* @__PURE__ */ jsx("input", { id: "email", name: "email", type: "email", placeholder: "jane@example.com", required: true })
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxs("div", { className: "form-div mt-2", children: [
+            /* @__PURE__ */ jsx("label", { htmlFor: "message", children: "Message" }),
+            /* @__PURE__ */ jsx("textarea", { id: "message", name: "message", rows: 5, placeholder: "How can we help?", required: true })
+          ] }),
+          /* @__PURE__ */ jsx("div", { className: "mt-4 flex justify-end", children: /* @__PURE__ */ jsx("button", { type: "submit", className: "primary-button w-fit", children: "Send Message" }) })
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxs("div", { className: "text-sm text-light-300 mt-6", children: [
+      "© ",
+      (/* @__PURE__ */ new Date()).getFullYear(),
+      " Resume Analyzer. All rights reserved."
+    ] })
+  ] }) });
+};
+const links = () => [
+  // Override favicon with a blank data URL (effectively removes favicon)
+  {
+    rel: "icon",
+    href: "data:,"
+  },
+  {
+    rel: "shortcut icon",
+    href: "data:,"
+  },
+  {
+    rel: "preconnect",
+    href: "https://fonts.googleapis.com"
+  },
+  {
+    rel: "preconnect",
+    href: "https://fonts.gstatic.com",
+    crossOrigin: "anonymous"
+  },
+  {
+    rel: "stylesheet",
+    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+  }
+];
 function Layout({
   children
 }) {
@@ -388,11 +464,15 @@ function Layout({
       }), /* @__PURE__ */ jsx("meta", {
         name: "viewport",
         content: "width=device-width, initial-scale=1"
+      }), /* @__PURE__ */ jsx("script", {
+        dangerouslySetInnerHTML: {
+          __html: "(function(){try{var t=localStorage.getItem('theme')||'dark';var r=document.documentElement;r.classList.add(t);}catch(e){}})();"
+        }
       }), /* @__PURE__ */ jsx(Meta, {}), /* @__PURE__ */ jsx(Links, {})]
     }), /* @__PURE__ */ jsxs("body", {
       children: [/* @__PURE__ */ jsx("script", {
         src: "https://js.puter.com/v2/"
-      }), children, /* @__PURE__ */ jsx(ScrollRestoration, {}), /* @__PURE__ */ jsx(Scripts, {})]
+      }), /* @__PURE__ */ jsx(AnimatedBackground, {}), children, /* @__PURE__ */ jsx(Footer, {}), /* @__PURE__ */ jsx(ScrollRestoration, {}), /* @__PURE__ */ jsx(Scripts, {})]
     })]
   });
 }
@@ -426,19 +506,47 @@ const route0 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProper
   links
 }, Symbol.toStringTag, { value: "Module" }));
 const Navbar = () => {
+  const [theme, setTheme] = React.useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("theme") || "dark";
+    }
+    return "dark";
+  });
+  React.useEffect(() => {
+    const root2 = document.documentElement;
+    if (theme === "dark") {
+      root2.classList.add("dark");
+      root2.classList.remove("light");
+    } else {
+      root2.classList.add("light");
+      root2.classList.remove("dark");
+    }
+    try {
+      localStorage.setItem("theme", theme);
+    } catch {
+    }
+  }, [theme]);
+  const toggleTheme = () => {
+    setTheme((prev) => prev === "dark" ? "light" : "dark");
+  };
   return /* @__PURE__ */ jsxs("nav", { className: "navbar", children: [
     /* @__PURE__ */ jsx(Link, { to: "/", children: /* @__PURE__ */ jsx("p", { className: "text-2xl font-bold text-gradient", children: "Resume Analyzer" }) }),
-    /* @__PURE__ */ jsx(Link, { to: "/upload", className: "primary-button w-fit", children: "Upload Your Resume" })
+    /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-4", children: [
+      /* @__PURE__ */ jsx("button", { onClick: toggleTheme, className: "p-2 rounded-full bg-dark-700 text-light-100", children: theme === "dark" ? /* @__PURE__ */ jsx("svg", { xmlns: "http://www.w3.org/2000/svg", className: "h-6 w-6", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", children: /* @__PURE__ */ jsx("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" }) }) : /* @__PURE__ */ jsx("svg", { xmlns: "http://www.w3.org/2000/svg", className: "h-6 w-6", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", children: /* @__PURE__ */ jsx("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" }) }) }),
+      /* @__PURE__ */ jsx("a", { href: "https://satyamsoni-nextjs-portfolio.vercel.app/", target: "_blank", rel: "noopener noreferrer", className: "primary-button w-fit", children: "My Portfolio" }),
+      /* @__PURE__ */ jsx(Link, { to: "/upload", className: "primary-button w-fit", children: "Upload Your Resume" })
+    ] })
   ] });
 };
-const ScoreCircle = ({ score = 75 }) => {
+const ScoreCircle = ({ score = 75, size = 100 }) => {
+  const id = React.useId();
   const radius = 40;
   const stroke = 8;
   const normalizedRadius = radius - stroke / 2;
   const circumference = 2 * Math.PI * normalizedRadius;
-  const progress = score / 100;
+  const progress = Math.max(0, Math.min(1, score / 100));
   const strokeDashoffset = circumference * (1 - progress);
-  return /* @__PURE__ */ jsxs("div", { className: "relative w-[100px] h-[100px]", children: [
+  return /* @__PURE__ */ jsxs("div", { className: "relative", style: { width: size, height: size }, children: [
     /* @__PURE__ */ jsxs(
       "svg",
       {
@@ -453,14 +561,14 @@ const ScoreCircle = ({ score = 75 }) => {
               cx: "50",
               cy: "50",
               r: normalizedRadius,
-              stroke: "#e5e7eb",
+              stroke: "#3a3a3a",
               strokeWidth: stroke,
               fill: "transparent"
             }
           ),
-          /* @__PURE__ */ jsx("defs", { children: /* @__PURE__ */ jsxs("linearGradient", { id: "grad", x1: "1", y1: "0", x2: "0", y2: "1", children: [
-            /* @__PURE__ */ jsx("stop", { offset: "0%", stopColor: "#FF97AD" }),
-            /* @__PURE__ */ jsx("stop", { offset: "100%", stopColor: "#5171FF" })
+          /* @__PURE__ */ jsx("defs", { children: /* @__PURE__ */ jsxs("linearGradient", { id: `grad-${id}`, x1: "1", y1: "0", x2: "0", y2: "1", children: [
+            /* @__PURE__ */ jsx("stop", { offset: "0%", stopColor: "#FDBA74" }),
+            /* @__PURE__ */ jsx("stop", { offset: "100%", stopColor: "#EA580C" })
           ] }) }),
           /* @__PURE__ */ jsx(
             "circle",
@@ -468,7 +576,7 @@ const ScoreCircle = ({ score = 75 }) => {
               cx: "50",
               cy: "50",
               r: normalizedRadius,
-              stroke: "url(#grad)",
+              stroke: `url(#grad-${id})`,
               strokeWidth: stroke,
               fill: "transparent",
               strokeDasharray: circumference,
@@ -479,7 +587,7 @@ const ScoreCircle = ({ score = 75 }) => {
         ]
       }
     ),
-    /* @__PURE__ */ jsx("div", { className: "absolute inset-0 flex flex-col items-center justify-center", children: /* @__PURE__ */ jsx("span", { className: "font-semibold text-sm", children: `${score}/100` }) })
+    /* @__PURE__ */ jsx("div", { className: "absolute inset-0 flex flex-col items-center justify-center", children: /* @__PURE__ */ jsx("span", { className: "font-semibold text-sm", children: `${Math.round(progress * 100)}/100` }) })
   ] });
 };
 const ResumeCard = ({ resume: { id, companyName, jobTitle, feedback, imagePath } }) => {
@@ -494,28 +602,48 @@ const ResumeCard = ({ resume: { id, companyName, jobTitle, feedback, imagePath }
     };
     loadResume();
   }, [imagePath]);
-  return /* @__PURE__ */ jsxs(Link, { to: `/resume/${id}`, className: "resume-card animate-in fade-in duration-1000", children: [
-    /* @__PURE__ */ jsxs("div", { className: "resume-card-header", children: [
-      /* @__PURE__ */ jsxs("div", { className: "flex flex-col gap-2", children: [
-        companyName && /* @__PURE__ */ jsx("h2", { className: "!text-black font-bold break-words", children: companyName }),
-        jobTitle && /* @__PURE__ */ jsx("h3", { className: "text-lg break-words text-gray-500", children: jobTitle }),
-        !companyName && !jobTitle && /* @__PURE__ */ jsx("h2", { className: "!text-black font-bold", children: "Resume" })
-      ] }),
-      /* @__PURE__ */ jsx("div", { className: "flex-shrink-0", children: /* @__PURE__ */ jsx(ScoreCircle, { score: feedback.overallScore }) })
-    ] }),
-    resumeUrl && /* @__PURE__ */ jsx("div", { className: "gradient-border animate-in fade-in duration-1000", children: /* @__PURE__ */ jsx("div", { className: "w-full h-full", children: /* @__PURE__ */ jsx(
+  return /* @__PURE__ */ jsxs(Link, { to: `/resume/${id}`, className: "recent-resume-card hover-lift animate-in fade-in duration-700", children: [
+    /* @__PURE__ */ jsx("div", { className: "recent-resume-thumb", children: /* @__PURE__ */ jsx("div", { className: "thumb-frame", children: resumeUrl && /* @__PURE__ */ jsx(
       "img",
       {
         src: resumeUrl,
-        alt: "resume",
-        className: "w-full h-[350px] max-sm:h-[200px] object-cover object-top"
+        alt: "resume preview",
+        className: "thumb-img"
       }
-    ) }) })
+    ) }) }),
+    /* @__PURE__ */ jsxs("div", { className: "recent-resume-meta", children: [
+      /* @__PURE__ */ jsxs("div", { className: "recent-resume-header", children: [
+        /* @__PURE__ */ jsxs("div", { className: "recent-resume-title", children: [
+          companyName ? /* @__PURE__ */ jsx("h2", { children: companyName }) : /* @__PURE__ */ jsx("h2", { children: "Resume" }),
+          jobTitle && /* @__PURE__ */ jsx("h3", { children: jobTitle })
+        ] }),
+        /* @__PURE__ */ jsx("div", { className: "recent-resume-score", children: /* @__PURE__ */ jsx(ScoreCircle, { score: feedback.overallScore, size: 72 }) })
+      ] }),
+      /* @__PURE__ */ jsxs("div", { className: "recent-resume-subscores", children: [
+        /* @__PURE__ */ jsxs("div", { className: "recent-resume-chip", children: [
+          /* @__PURE__ */ jsx("span", { children: "ATS" }),
+          /* @__PURE__ */ jsx("span", { className: "text-light-100 font-semibold", children: feedback.ATS.score })
+        ] }),
+        /* @__PURE__ */ jsxs("div", { className: "recent-resume-chip", children: [
+          /* @__PURE__ */ jsx("span", { children: "Content" }),
+          /* @__PURE__ */ jsx("span", { className: "text-light-100 font-semibold", children: feedback.content.score })
+        ] }),
+        /* @__PURE__ */ jsxs("div", { className: "recent-resume-chip", children: [
+          /* @__PURE__ */ jsx("span", { children: "Structure" }),
+          /* @__PURE__ */ jsx("span", { className: "text-light-100 font-semibold", children: feedback.structure.score })
+        ] }),
+        /* @__PURE__ */ jsxs("div", { className: "recent-resume-chip", children: [
+          /* @__PURE__ */ jsx("span", { children: "Skills" }),
+          /* @__PURE__ */ jsx("span", { className: "text-light-100 font-semibold", children: feedback.skills.score })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsx("div", { className: "recent-resume-footer", children: /* @__PURE__ */ jsx("span", { className: "recent-resume-link", children: "View details →" }) })
+    ] })
   ] });
 };
 function meta$2({}) {
   return [{
-    title: "SsResumeAnalyzer | Home"
+    title: "SsResumeAnalyzer"
   }, {
     name: "description",
     content: "Smart feedback for your dream job!"
@@ -543,16 +671,103 @@ const home = UNSAFE_withComponentProps(function Home() {
     loadResumes();
   }, []);
   return /* @__PURE__ */ jsxs("main", {
-    className: "bg-[url('/images/bg-main.svg')] bg-cover",
+    className: "bg-dark-900",
     children: [/* @__PURE__ */ jsx(Navbar, {}), /* @__PURE__ */ jsxs("section", {
+      className: "hero",
+      children: [/* @__PURE__ */ jsx("h1", {
+        className: "text-gradient",
+        children: "Smart feedback for your dream job"
+      }), /* @__PURE__ */ jsx("h2", {
+        children: "Upload your resume, get ATS insights, and improve faster with clear, actionable suggestions."
+      }), /* @__PURE__ */ jsxs("div", {
+        className: "hero-actions",
+        children: [/* @__PURE__ */ jsx(Link, {
+          to: "/upload",
+          className: "primary-button w-fit text-lg font-semibold",
+          children: "Upload Resume"
+        }), /* @__PURE__ */ jsx("a", {
+          href: "https://satyamsoni-nextjs-portfolio.vercel.app/",
+          target: "_blank",
+          rel: "noreferrer",
+          className: "secondary-button w-fit text-lg font-semibold",
+          children: "Learn More"
+        })]
+      }), /* @__PURE__ */ jsxs("div", {
+        className: "stats mt-8",
+        children: [/* @__PURE__ */ jsxs("div", {
+          className: "stat",
+          children: [/* @__PURE__ */ jsx("p", {
+            className: "text-4xl font-bold text-light-100",
+            children: "95%"
+          }), /* @__PURE__ */ jsx("p", {
+            className: "text-light-200",
+            children: "Users get clearer resumes"
+          })]
+        }), /* @__PURE__ */ jsxs("div", {
+          className: "stat",
+          children: [/* @__PURE__ */ jsx("p", {
+            className: "text-4xl font-bold text-light-100",
+            children: "+25%"
+          }), /* @__PURE__ */ jsx("p", {
+            className: "text-light-200",
+            children: "Avg. score improvement"
+          })]
+        }), /* @__PURE__ */ jsxs("div", {
+          className: "stat",
+          children: [/* @__PURE__ */ jsx("p", {
+            className: "text-4xl font-bold text-light-100",
+            children: "Seconds"
+          }), /* @__PURE__ */ jsx("p", {
+            className: "text-light-200",
+            children: "To first feedback"
+          })]
+        })]
+      })]
+    }), /* @__PURE__ */ jsx("section", {
+      className: "w-full mt-8",
+      children: /* @__PURE__ */ jsxs("div", {
+        className: "features",
+        children: [/* @__PURE__ */ jsxs("div", {
+          className: "feature-card",
+          children: [/* @__PURE__ */ jsx("h3", {
+            className: "text-xl text-light-100 font-semibold mb-2",
+            children: "ATS Scoring"
+          }), /* @__PURE__ */ jsx("p", {
+            className: "text-light-200",
+            children: "Understand how applicant tracking systems read and rate your resume."
+          })]
+        }), /* @__PURE__ */ jsxs("div", {
+          className: "feature-card",
+          children: [/* @__PURE__ */ jsx("h3", {
+            className: "text-xl text-light-100 font-semibold mb-2",
+            children: "Actionable Feedback"
+          }), /* @__PURE__ */ jsx("p", {
+            className: "text-light-200",
+            children: "Specific, prioritized suggestions tailored to the role and description."
+          })]
+        }), /* @__PURE__ */ jsxs("div", {
+          className: "feature-card",
+          children: [/* @__PURE__ */ jsx("h3", {
+            className: "text-xl text-light-100 font-semibold mb-2",
+            children: "Private by Design"
+          }), /* @__PURE__ */ jsx("p", {
+            className: "text-light-200",
+            children: "Your files stay in your control. Remove them anytime."
+          })]
+        })]
+      })
+    }), /* @__PURE__ */ jsxs("section", {
       className: "main-section",
       children: [/* @__PURE__ */ jsxs("div", {
-        className: "page-heading py-16",
-        children: [/* @__PURE__ */ jsx("h1", {
-          children: "Track Your Applications & Resume Ratings"
-        }), !loadingResumes && (resumes == null ? void 0 : resumes.length) === 0 ? /* @__PURE__ */ jsx("h2", {
-          children: "No resumes found. Upload your first resume to get feedback."
-        }) : /* @__PURE__ */ jsx("h2", {
+        className: "page-heading py-10",
+        children: [/* @__PURE__ */ jsx("h2", {
+          className: "text-3xl text-light-100",
+          children: "Recent Resumes"
+        }), !loadingResumes && (resumes == null ? void 0 : resumes.length) === 0 ? /* @__PURE__ */ jsx("p", {
+          className: "text-light-200",
+          children: "No resumes yet. Upload your first one to get started."
+        }) : /* @__PURE__ */ jsx("p", {
+          className: "text-light-200",
           children: "Review your submissions and check AI-powered feedback."
         })]
       }), loadingResumes && /* @__PURE__ */ jsx("div", {
@@ -567,7 +782,7 @@ const home = UNSAFE_withComponentProps(function Home() {
           resume: resume2
         }, resume2.id))
       }), !loadingResumes && (resumes == null ? void 0 : resumes.length) === 0 && /* @__PURE__ */ jsx("div", {
-        className: "flex flex-col items-center justify-center mt-10 gap-4",
+        className: "flex flex-col items-center justify-center mt-6 gap-4",
         children: /* @__PURE__ */ jsx(Link, {
           to: "/upload",
           className: "primary-button w-fit text-xl font-semibold",
@@ -600,14 +815,15 @@ const Auth = () => {
     if (auth2.isAuthenticated) navigate(next);
   }, [auth2.isAuthenticated, next]);
   return /* @__PURE__ */ jsx("main", {
-    className: "bg-[url('/images/bg-auth.svg')] bg-cover min-h-screen flex items-center justify-center",
+    className: "bg-dark-900 min-h-screen flex items-center justify-center",
     children: /* @__PURE__ */ jsx("div", {
       className: "gradient-border shadow-lg",
       children: /* @__PURE__ */ jsxs("section", {
-        className: "flex flex-col gap-8 bg-white rounded-2xl p-10",
+        className: "flex flex-col gap-8 bg-dark-800 rounded-2xl p-10",
         children: [/* @__PURE__ */ jsxs("div", {
           className: "flex flex-col items-center gap-2 text-center",
           children: [/* @__PURE__ */ jsx("h1", {
+            className: "text-gradient",
             children: "Welcome"
           }), /* @__PURE__ */ jsx("h2", {
             children: "Log In to Continue Your Job Journey"
@@ -693,13 +909,31 @@ const FileUploader = ({ onFileSelect }) => {
     ] }) })
   ] }) });
 };
+function WorkerWrapper(options) {
+  return new Worker(
+    "/assets/pdf.worker.min-Dfqeq-Zj.js",
+    {
+      name: options == null ? void 0 : options.name
+    }
+  );
+}
+const workerUrl = "/assets/pdf.worker.min--PgD6g2g.mjs";
 let pdfjsLib = null;
 let loadPromise = null;
 async function loadPdfJs() {
   if (pdfjsLib) return pdfjsLib;
   if (loadPromise) return loadPromise;
-  loadPromise = import("pdfjs-dist/build/pdf.mjs").then((lib) => {
-    lib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
+  loadPromise = import("pdfjs-dist").then((lib) => {
+    try {
+      const workerInstance = typeof WorkerWrapper === "function" ? new WorkerWrapper() : void 0;
+      if (workerInstance) {
+        lib.GlobalWorkerOptions.workerPort = workerInstance;
+      } else {
+        lib.GlobalWorkerOptions.workerSrc = workerUrl || "/pdf.worker.min.mjs";
+      }
+    } catch {
+      lib.GlobalWorkerOptions.workerSrc = workerUrl;
+    }
     pdfjsLib = lib;
     return lib;
   });
@@ -711,14 +945,20 @@ async function convertPdfToImage(file) {
     const arrayBuffer = await file.arrayBuffer();
     const pdf = await lib.getDocument({ data: arrayBuffer }).promise;
     const page = await pdf.getPage(1);
-    const viewport = page.getViewport({ scale: 4 });
+    const baseViewport = page.getViewport({ scale: 1 });
+    const maxWidth = 2e3;
+    const scale = Math.max(1, Math.min(3, maxWidth / baseViewport.width));
+    const viewport = page.getViewport({ scale });
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d");
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
+    canvas.width = Math.floor(viewport.width);
+    canvas.height = Math.floor(viewport.height);
     if (context) {
       context.imageSmoothingEnabled = true;
       context.imageSmoothingQuality = "high";
+    }
+    if (!context) {
+      throw new Error("Canvas context unavailable");
     }
     await page.render({ canvasContext: context, viewport }).promise;
     return new Promise((resolve) => {
@@ -749,7 +989,7 @@ async function convertPdfToImage(file) {
     return {
       imageUrl: "",
       file: null,
-      error: `Failed to convert PDF: ${err}`
+      error: `Failed to convert PDF: ${err instanceof Error ? err.message : String(err)}`
     };
   }
 }
@@ -836,7 +1076,10 @@ const Upload = () => {
     if (!uploadedFile) return setStatusText("Error: Failed to upload file");
     setStatusText("Converting to image...");
     const imageFile = await convertPdfToImage(file2);
-    if (!imageFile.file) return setStatusText("Error: Failed to convert PDF to image");
+    if (!imageFile.file) {
+      const reason = imageFile.error ? ` (${imageFile.error})` : "";
+      return setStatusText(`Error: Failed to convert PDF to image${reason}`);
+    }
     setStatusText("Uploading the image...");
     const uploadedImage = await fs.upload([imageFile.file]);
     if (!uploadedImage) return setStatusText("Error: Failed to upload image");
@@ -867,9 +1110,9 @@ const Upload = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    const form = e.currentTarget.closest("form");
-    if (!form) return;
-    const formData = new FormData(form);
+    const form2 = e.currentTarget.closest("form");
+    if (!form2) return;
+    const formData = new FormData(form2);
     const companyName = formData.get("company-name");
     const jobTitle = formData.get("job-title");
     const jobDescription = formData.get("job-description");
@@ -882,12 +1125,13 @@ const Upload = () => {
     });
   };
   return /* @__PURE__ */ jsxs("main", {
-    className: "bg-[url('/images/bg-main.svg')] bg-cover",
+    className: "bg-dark-900",
     children: [/* @__PURE__ */ jsx(Navbar, {}), /* @__PURE__ */ jsx("section", {
       className: "main-section",
       children: /* @__PURE__ */ jsxs("div", {
         className: "page-heading py-16",
         children: [/* @__PURE__ */ jsx("h1", {
+          className: "text-gradient",
           children: "Smart feedback for your dream job"
         }), isProcessing ? /* @__PURE__ */ jsxs(Fragment, {
           children: [/* @__PURE__ */ jsx("h2", {
@@ -1380,7 +1624,7 @@ const Resume = () => {
     loadResume();
   }, [id]);
   return /* @__PURE__ */ jsxs("main", {
-    className: "!pt-0",
+    className: "!pt-0 bg-dark-900",
     children: [/* @__PURE__ */ jsx("nav", {
       className: "resume-nav",
       children: /* @__PURE__ */ jsxs(Link, {
@@ -1391,14 +1635,14 @@ const Resume = () => {
           alt: "logo",
           className: "w-2.5 h-2.5"
         }), /* @__PURE__ */ jsx("span", {
-          className: "text-gray-800 text-sm font-semibold",
+          className: "text-light-200 text-sm font-semibold",
           children: "Back to Homepage"
         })]
       })
     }), /* @__PURE__ */ jsxs("div", {
       className: "flex flex-row w-full max-lg:flex-col-reverse",
       children: [/* @__PURE__ */ jsx("section", {
-        className: "feedback-section bg-[url('/images/bg-small.svg') bg-cover h-[100vh] sticky top-0 items-center justify-center",
+        className: "feedback-section bg-dark-900 h-[100vh] sticky top-0 items-center justify-center",
         children: imageUrl && resumeUrl && /* @__PURE__ */ jsx("div", {
           className: "animate-in fade-in duration-1000 gradient-border max-sm:m-0 h-[90%] max-wxl:h-fit w-fit",
           children: /* @__PURE__ */ jsx("a", {
@@ -1415,7 +1659,7 @@ const Resume = () => {
       }), /* @__PURE__ */ jsxs("section", {
         className: "feedback-section",
         children: [/* @__PURE__ */ jsx("h2", {
-          className: "text-4xl !text-black font-bold",
+          className: "text-4xl !text-light-100 font-bold",
           children: "Resume Review"
         }), feedback ? /* @__PURE__ */ jsxs("div", {
           className: "flex flex-col gap-8 animate-in fade-in duration-1000",
@@ -1508,7 +1752,7 @@ const route5 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProper
   __proto__: null,
   default: wipe
 }, Symbol.toStringTag, { value: "Module" }));
-const serverManifest = { "entry": { "module": "/assets/entry.client-DQFzWzMJ.js", "imports": ["/assets/chunk-QMGIS6GS-DX0VMMAr.js"], "css": [] }, "routes": { "root": { "id": "root", "parentId": void 0, "path": "", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasClientMiddleware": false, "hasErrorBoundary": true, "module": "/assets/root-CfuukZzX.js", "imports": ["/assets/chunk-QMGIS6GS-DX0VMMAr.js", "/assets/puter-N-LIF3ap.js"], "css": ["/assets/root-BWkhk1WA.css"], "clientActionModule": void 0, "clientLoaderModule": void 0, "clientMiddlewareModule": void 0, "hydrateFallbackModule": void 0 }, "routes/home": { "id": "routes/home", "parentId": "root", "path": void 0, "index": true, "caseSensitive": void 0, "hasAction": false, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasClientMiddleware": false, "hasErrorBoundary": false, "module": "/assets/home-C4tASIxy.js", "imports": ["/assets/chunk-QMGIS6GS-DX0VMMAr.js", "/assets/Navbar-UPHK7i7B.js", "/assets/puter-N-LIF3ap.js"], "css": [], "clientActionModule": void 0, "clientLoaderModule": void 0, "clientMiddlewareModule": void 0, "hydrateFallbackModule": void 0 }, "routes/auth": { "id": "routes/auth", "parentId": "root", "path": "/auth", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasClientMiddleware": false, "hasErrorBoundary": false, "module": "/assets/auth-BOzBCEXo.js", "imports": ["/assets/chunk-QMGIS6GS-DX0VMMAr.js", "/assets/puter-N-LIF3ap.js"], "css": [], "clientActionModule": void 0, "clientLoaderModule": void 0, "clientMiddlewareModule": void 0, "hydrateFallbackModule": void 0 }, "routes/upload": { "id": "routes/upload", "parentId": "root", "path": "/upload", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasClientMiddleware": false, "hasErrorBoundary": false, "module": "/assets/upload-CqMtjdIx.js", "imports": ["/assets/chunk-QMGIS6GS-DX0VMMAr.js", "/assets/Navbar-UPHK7i7B.js", "/assets/utils-CLdLQqWL.js", "/assets/puter-N-LIF3ap.js"], "css": [], "clientActionModule": void 0, "clientLoaderModule": void 0, "clientMiddlewareModule": void 0, "hydrateFallbackModule": void 0 }, "routes/resume": { "id": "routes/resume", "parentId": "root", "path": "/resume/:id", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasClientMiddleware": false, "hasErrorBoundary": false, "module": "/assets/resume-CKRDyHbU.js", "imports": ["/assets/chunk-QMGIS6GS-DX0VMMAr.js", "/assets/puter-N-LIF3ap.js", "/assets/utils-CLdLQqWL.js"], "css": [], "clientActionModule": void 0, "clientLoaderModule": void 0, "clientMiddlewareModule": void 0, "hydrateFallbackModule": void 0 }, "routes/wipe": { "id": "routes/wipe", "parentId": "root", "path": "/wipe", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasClientMiddleware": false, "hasErrorBoundary": false, "module": "/assets/wipe-RWU7PbBx.js", "imports": ["/assets/chunk-QMGIS6GS-DX0VMMAr.js", "/assets/puter-N-LIF3ap.js"], "css": [], "clientActionModule": void 0, "clientLoaderModule": void 0, "clientMiddlewareModule": void 0, "hydrateFallbackModule": void 0 } }, "url": "/assets/manifest-b0b7e8cc.js", "version": "b0b7e8cc", "sri": void 0 };
+const serverManifest = { "entry": { "module": "/assets/entry.client-DQFzWzMJ.js", "imports": ["/assets/chunk-QMGIS6GS-DX0VMMAr.js"], "css": [] }, "routes": { "root": { "id": "root", "parentId": void 0, "path": "", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasClientMiddleware": false, "hasErrorBoundary": true, "module": "/assets/root-Be9lC4UE.js", "imports": ["/assets/chunk-QMGIS6GS-DX0VMMAr.js", "/assets/puter-N-LIF3ap.js"], "css": ["/assets/root-Ce5CmT4g.css"], "clientActionModule": void 0, "clientLoaderModule": void 0, "clientMiddlewareModule": void 0, "hydrateFallbackModule": void 0 }, "routes/home": { "id": "routes/home", "parentId": "root", "path": void 0, "index": true, "caseSensitive": void 0, "hasAction": false, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasClientMiddleware": false, "hasErrorBoundary": false, "module": "/assets/home-wDlhk8EN.js", "imports": ["/assets/chunk-QMGIS6GS-DX0VMMAr.js", "/assets/Navbar-B0BCNFc_.js", "/assets/puter-N-LIF3ap.js"], "css": [], "clientActionModule": void 0, "clientLoaderModule": void 0, "clientMiddlewareModule": void 0, "hydrateFallbackModule": void 0 }, "routes/auth": { "id": "routes/auth", "parentId": "root", "path": "/auth", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasClientMiddleware": false, "hasErrorBoundary": false, "module": "/assets/auth-DvBMjg0x.js", "imports": ["/assets/chunk-QMGIS6GS-DX0VMMAr.js", "/assets/puter-N-LIF3ap.js"], "css": [], "clientActionModule": void 0, "clientLoaderModule": void 0, "clientMiddlewareModule": void 0, "hydrateFallbackModule": void 0 }, "routes/upload": { "id": "routes/upload", "parentId": "root", "path": "/upload", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasClientMiddleware": false, "hasErrorBoundary": false, "module": "/assets/upload-DByJZ9wK.js", "imports": ["/assets/chunk-QMGIS6GS-DX0VMMAr.js", "/assets/Navbar-B0BCNFc_.js", "/assets/utils-CLdLQqWL.js", "/assets/puter-N-LIF3ap.js"], "css": [], "clientActionModule": void 0, "clientLoaderModule": void 0, "clientMiddlewareModule": void 0, "hydrateFallbackModule": void 0 }, "routes/resume": { "id": "routes/resume", "parentId": "root", "path": "/resume/:id", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasClientMiddleware": false, "hasErrorBoundary": false, "module": "/assets/resume-DFRzXzET.js", "imports": ["/assets/chunk-QMGIS6GS-DX0VMMAr.js", "/assets/puter-N-LIF3ap.js", "/assets/utils-CLdLQqWL.js"], "css": [], "clientActionModule": void 0, "clientLoaderModule": void 0, "clientMiddlewareModule": void 0, "hydrateFallbackModule": void 0 }, "routes/wipe": { "id": "routes/wipe", "parentId": "root", "path": "/wipe", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasClientMiddleware": false, "hasErrorBoundary": false, "module": "/assets/wipe-RWU7PbBx.js", "imports": ["/assets/chunk-QMGIS6GS-DX0VMMAr.js", "/assets/puter-N-LIF3ap.js"], "css": [], "clientActionModule": void 0, "clientLoaderModule": void 0, "clientMiddlewareModule": void 0, "hydrateFallbackModule": void 0 } }, "url": "/assets/manifest-23286961.js", "version": "23286961", "sri": void 0 };
 const assetsBuildDirectory = "build\\client";
 const basename = "/";
 const future = { "unstable_middleware": false, "unstable_optimizeDeps": false, "unstable_splitRouteModules": false, "unstable_subResourceIntegrity": false, "unstable_viteEnvironmentApi": false };

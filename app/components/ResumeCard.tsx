@@ -1,7 +1,7 @@
-import {Link} from "react-router";
+import { Link } from "react-router";
 import ScoreCircle from "~/components/ScoreCircle";
-import {useEffect, useState} from "react";
-import {usePuterStore} from "~/lib/puter";
+import { useEffect, useState } from "react";
+import { usePuterStore } from "~/lib/puter";
 
 const ResumeCard = ({ resume: { id, companyName, jobTitle, feedback, imagePath } }: { resume: Resume }) => {
     const { fs } = usePuterStore();
@@ -19,28 +19,48 @@ const ResumeCard = ({ resume: { id, companyName, jobTitle, feedback, imagePath }
     }, [imagePath]);
 
     return (
-        <Link to={`/resume/${id}`} className="resume-card animate-in fade-in duration-1000">
-            <div className="resume-card-header">
-                <div className="flex flex-col gap-2">
-                    {companyName && <h2 className="!text-black font-bold break-words">{companyName}</h2>}
-                    {jobTitle && <h3 className="text-lg break-words text-gray-500">{jobTitle}</h3>}
-                    {!companyName && !jobTitle && <h2 className="!text-black font-bold">Resume</h2>}
-                </div>
-                <div className="flex-shrink-0">
-                    <ScoreCircle score={feedback.overallScore} />
-                </div>
-            </div>
-            {resumeUrl && (
-                <div className="gradient-border animate-in fade-in duration-1000">
-                    <div className="w-full h-full">
+        <Link to={`/resume/${id}`} className="recent-resume-card hover-lift animate-in fade-in duration-700">
+            {/* Thumbnail */}
+            <div className="recent-resume-thumb">
+                <div className="thumb-frame">
+                    {resumeUrl && (
                         <img
                             src={resumeUrl}
-                            alt="resume"
-                            className="w-full h-[350px] max-sm:h-[200px] object-cover object-top"
+                            alt="resume preview"
+                            className="thumb-img"
                         />
+                    )}
+                </div>
+            </div>
+
+            {/* Meta */}
+            <div className="recent-resume-meta">
+                <div className="recent-resume-header">
+                    <div className="recent-resume-title">
+                        {companyName ? (
+                            <h2>{companyName}</h2>
+                        ) : (
+                            <h2>Resume</h2>
+                        )}
+                        {jobTitle && <h3>{jobTitle}</h3>}
+                    </div>
+                    <div className="recent-resume-score">
+                        <ScoreCircle score={feedback.overallScore} size={72} />
                     </div>
                 </div>
-                )}
+
+                {/* Subscores */}
+                <div className="recent-resume-subscores">
+                    <div className="recent-resume-chip"><span>ATS</span><span className="text-light-100 font-semibold">{feedback.ATS.score}</span></div>
+                    <div className="recent-resume-chip"><span>Content</span><span className="text-light-100 font-semibold">{feedback.content.score}</span></div>
+                    <div className="recent-resume-chip"><span>Structure</span><span className="text-light-100 font-semibold">{feedback.structure.score}</span></div>
+                    <div className="recent-resume-chip"><span>Skills</span><span className="text-light-100 font-semibold">{feedback.skills.score}</span></div>
+                </div>
+
+                <div className="recent-resume-footer">
+                    <span className="recent-resume-link">View details →</span>
+                </div>
+            </div>
         </Link>
     )
 }

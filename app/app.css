@@ -82,6 +82,9 @@ form {
   .primary-button {
     @apply bg-blue-600 text-white rounded-full px-4 py-2 cursor-pointer w-full hover:bg-blue-500 transition-colors;
   }
+  .secondary-button {
+    @apply border border-dark-700 text-light-100 rounded-full px-4 py-2 cursor-pointer w-full hover:bg-dark-800 transition-colors;
+  }
   .resume-nav {
     @apply flex flex-row justify-between items-center p-4 border-b border-dark-700;
   }
@@ -104,11 +107,46 @@ form {
     @apply flex flex-col items-center gap-8 max-w-4xl text-center;
   }
   .resumes-section {
-    @apply flex flex-wrap max-lg:flex-col gap-6 items-start w-full max-w-[1850px] justify-evenly;
+    @apply grid grid-cols-1 xl:grid-cols-2 gap-6 w-full max-w-[1400px] mx-auto px-6;
   }
 
   .resume-card {
     @apply flex flex-col gap-8 h-[560px] w-full lg:w-[450px] xl:w-[490px] bg-dark-800 rounded-2xl p-4 border border-dark-700;
+  }
+
+  /* Redesigned recent resume card (horizontal) */
+  .recent-resume-card {
+    @apply flex flex-col md:flex-row gap-4 w-full bg-dark-800 rounded-2xl p-4 border border-dark-700 transition-all duration-300 overflow-hidden;
+  }
+  .recent-resume-card:hover { @apply border-blue-500; }
+  .hover-lift { @apply hover:-translate-y-1 hover:shadow-xl; }
+  .recent-resume-thumb {
+    @apply w-full md:w-[40%] overflow-hidden rounded-xl border border-dark-700 bg-dark-700;
+  }
+  .thumb-frame { position: relative; width: 100%; padding-top: 75%; }
+  .thumb-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .recent-resume-meta {
+    @apply flex-1 flex flex-col gap-4 justify-between min-w-0;
+  }
+  .recent-resume-header {
+    @apply flex items-start justify-between gap-3;
+  }
+  .recent-resume-title {
+    @apply flex-1 min-w-0;
+  }
+  .recent-resume-title h2 { @apply text-2xl font-semibold text-light-100 leading-tight break-words whitespace-nowrap overflow-hidden text-ellipsis; }
+  .recent-resume-title h3 { @apply text-sm text-light-200 break-words whitespace-nowrap overflow-hidden text-ellipsis; }
+  .recent-resume-score { @apply flex-shrink-0; }
+  .recent-resume-subscores { @apply grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2; }
+  .recent-resume-chip {
+    @apply inline-flex items-center justify-between gap-2 bg-dark-700 border border-dark-600 rounded-full px-2 py-1 md:px-3 text-xs md:text-sm text-light-200 min-w-0;
+  }
+  .recent-resume-chip span:first-child { @apply overflow-hidden text-ellipsis whitespace-nowrap; }
+  .recent-resume-footer {
+    @apply flex items-center justify-end;
+  }
+  .recent-resume-link {
+    @apply text-light-100 hover:text-blue-500 transition-colors;
   }
 
   .resume-card-header {
@@ -121,6 +159,26 @@ form {
 
   .navbar {
     @apply flex flex-row justify-between items-center bg-dark-800 rounded-full p-4 w-full px-10 max-w-[1200px] mx-auto border border-dark-700;
+  }
+
+  /* Home page helpers */
+  .hero {
+    @apply flex flex-col items-center gap-6 text-center pt-20 pb-12 px-6 mx-auto max-w-5xl;
+  }
+  .hero-actions {
+    @apply flex flex-row gap-4 justify-center;
+  }
+  .features {
+    @apply grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl mx-auto px-6;
+  }
+  .feature-card {
+    @apply bg-dark-800 border border-dark-700 rounded-2xl p-6 text-left;
+  }
+  .stats {
+    @apply grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-5xl mx-auto px-6;
+  }
+  .stat {
+    @apply bg-dark-800 border border-dark-700 rounded-2xl p-6 text-center;
   }
 
   .score-badge {

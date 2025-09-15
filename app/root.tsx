@@ -37,6 +37,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {/* Apply persisted theme before styles to avoid FOUC */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){try{var t=localStorage.getItem('theme')||'dark';var r=document.documentElement;r.classList.add(t);}catch(e){}})();",
+          }}
+        />
         <Meta />
         <Links />
       </head>

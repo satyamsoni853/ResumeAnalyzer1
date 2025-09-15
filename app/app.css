@@ -26,6 +26,20 @@
   --color-badge-yellow-text: #73321b;
 }
 
+/* Light theme overrides: remap tokens when `.light` is on <html> */
+.light {
+  /* Map surfaces to light palette */
+  --color-dark-900: #ffffff; /* base background */
+  --color-dark-800: #f5f5f5; /* elevated surfaces */
+  --color-dark-700: #e5e5e5; /* borders/cards */
+  --color-dark-600: #d9d9d9; /* inputs */
+
+  /* Map text tokens to darker ink */
+  --color-light-100: #0a0a0a; /* primary text */
+  --color-light-200: #1a1a1a; /* secondary text */
+  --color-light-300: #2a2a2a; /* muted text */
+}
+
 html,
 body {
   @apply bg-dark-900 text-light-200;

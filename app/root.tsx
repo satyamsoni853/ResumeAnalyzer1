@@ -15,6 +15,9 @@ import AnimatedBackground from "~/components/AnimatedBackground";
 import Footer from "~/components/Footer";
 
 export const links: Route.LinksFunction = () => [
+  // Override favicon with a blank data URL (effectively removes favicon)
+  { rel: "icon", href: "data:," },
+  { rel: "shortcut icon", href: "data:," },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",

@@ -515,7 +515,7 @@ const ResumeCard = ({ resume: { id, companyName, jobTitle, feedback, imagePath }
 };
 function meta$2({}) {
   return [{
-    title: "Resumind"
+    title: "SsResumeAnalyzer | Home"
   }, {
     name: "description",
     content: "Smart feedback for your dream job!"
@@ -583,7 +583,7 @@ const route1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProper
   meta: meta$2
 }, Symbol.toStringTag, { value: "Module" }));
 const meta$1 = () => [{
-  title: "Resumind | Auth"
+  title: "SsResumeAnalyzer | Auth"
 }, {
   name: "description",
   content: "Log into your account"
@@ -1332,7 +1332,7 @@ const Details = ({ feedback }) => {
   ] }) });
 };
 const meta = () => [{
-  title: "Resumind | Review "
+  title: "SsResumeAnalyzer | Review "
 }, {
   name: "description",
   content: "Detailed overview of your resume"

@@ -136,6 +136,34 @@ form {
   .uploader-selected-file {
     @apply flex items-center justify-between p-3 bg-dark-700 rounded-2xl;
   }
+
+  /* Animated background (rendered once per page) */
+  .animated-bg {
+    @apply pointer-events-none fixed inset-0 -z-10 overflow-hidden;
+  }
+  .animated-blob {
+    @apply absolute rounded-full opacity-30 blur-3xl;
+    background: radial-gradient(closest-side, var(--color-blue-600) 0%, transparent 60%);
+    will-change: transform, opacity, filter;
+  }
+  .light .animated-blob {
+    @apply opacity-20;
+    background: radial-gradient(closest-side, var(--color-blue-500) 0%, transparent 60%);
+  }
+  .blob1 {
+    top: -20vmax;
+    left: -20vmax;
+    width: 60vmax;
+    height: 60vmax;
+    animation: float1 24s ease-in-out infinite alternate;
+  }
+  .blob2 {
+    bottom: -20vmax;
+    right: -10vmax;
+    width: 70vmax;
+    height: 70vmax;
+    animation: float2 28s ease-in-out infinite alternate;
+  }
 }
 
 @keyframes fadeIn {
@@ -145,4 +173,21 @@ form {
   to {
     opacity: 1;
   }
+}
+
+/* Gentle float animations for blobs */
+@keyframes float1 {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(5vmax, 2vmax, 0) scale(1.06); }
+  100% { transform: translate3d(10vmax, 6vmax, 0) scale(1.12); }
+}
+@keyframes float2 {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-6vmax, -3vmax, 0) scale(1.05); }
+  100% { transform: translate3d(-12vmax, -8vmax, 0) scale(1.1); }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .animated-blob { animation: none !important; }
 }

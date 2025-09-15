@@ -2,6 +2,9 @@
   "name": "ai-resume-analyzer",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "build": "react-router build",
     "dev": "react-router dev",
@@ -9,6 +12,7 @@
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
+    "@react-router/dev": "^7.5.3",
     "@react-router/node": "^7.5.3",
     "@react-router/serve": "^7.5.3",
     "clsx": "^2.1.1",
@@ -22,7 +26,6 @@
     "zustand": "^5.0.6"
   },
   "devDependencies": {
-    "@react-router/dev": "^7.5.3",
     "@tailwindcss/vite": "^4.1.4",
     "@types/node": "^20",
     "@types/react": "^19.1.2",
